@@ -6,7 +6,7 @@ Image translation on face via pretrained stylegan2 model
 ![image](https://user-images.githubusercontent.com/63801551/123090714-0cfdbc80-d45b-11eb-9855-618d285bc7d5.png)
 
 
-**数据集**：
+**datasets**：
 
 ![image](https://user-images.githubusercontent.com/63801551/123090894-433b3c00-d45b-11eb-94e9-0843cb227322.png)
 
@@ -104,9 +104,6 @@ blended models:
 *   ffhq-cartoon-blended-16:https://drive.google.com/file/d/13DKF8yujBlWlXeArx6DBoGU6cg9tpTTu/view?usp=sharing
 *   ffhq-cartoon-blended-64:https://drive.google.com/file/d/13NVXnSezNwJAcmyRLAtlF3nGdxKfKOSA/view?usp=sharing
 
-some results: 
-
-![image](https://user-images.githubusercontent.com/63801551/123091281-bc3a9380-d45b-11eb-9841-ea18c2cc04d3.png)
 
 
 ## face2portait
