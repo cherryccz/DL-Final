@@ -1,2 +1,2 @@
 # DL-Final
-face image translation via pretrained stylegan2 model
+Image translation on face via pretrained stylegan2 model
