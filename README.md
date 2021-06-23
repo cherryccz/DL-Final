@@ -1,6 +1,17 @@
 # DL-Final
 Image translation on face via pretrained stylegan2 model
 
+**整体流程**：
+
+![image](https://user-images.githubusercontent.com/63801551/123090714-0cfdbc80-d45b-11eb-9855-618d285bc7d5.png)
+
+
+**数据集**：
+
+![image](https://user-images.githubusercontent.com/63801551/123090894-433b3c00-d45b-11eb-94e9-0843cb227322.png)
+
+
+
 下载stylegan2-ada代码
 
 
@@ -67,10 +78,14 @@ from IPython.display import Image
 !python stylegan2-ada/train.py --gpus=2 --outdir=results --data=datasets/GQJ --resume=stylegan2-ffhq-config-f.pkl --metrics=None --kimg=10000 --snap=50
 ```
 
+![image](https://user-images.githubusercontent.com/63801551/123090919-4e8e6780-d45b-11eb-834e-d7358fc6ade8.png)
+
 
 
 # **model blending**
 
+
+## face2cartoon
 
 ```python
 !gdown https://drive.google.com/uc?id=1frCcmHS8s15fFJvY0ctEISBprilgAMh6 #下载卡通模型
@@ -81,6 +96,7 @@ from IPython.display import Image
 !python blend_models.py stylegan2-ffhq-config-f.pkl FFHQ-Cartoons.pkl 16 --output-pkl="blended16.pkl"
 ```
 
+
 blended models:
 
 
@@ -88,13 +104,12 @@ blended models:
 *   ffhq-cartoon-blended-16:https://drive.google.com/file/d/13DKF8yujBlWlXeArx6DBoGU6cg9tpTTu/view?usp=sharing
 *   ffhq-cartoon-blended-64:https://drive.google.com/file/d/13NVXnSezNwJAcmyRLAtlF3nGdxKfKOSA/view?usp=sharing
 
+some results: 
+
+![image](https://user-images.githubusercontent.com/63801551/123091281-bc3a9380-d45b-11eb-9841-ea18c2cc04d3.png)
 
 
-
-
-
-
-### blend model (metfaces)
+## face2portait
 
 
 ```python
@@ -115,14 +130,28 @@ blended models:
 *   ffhq-metfaces-blended-16:https://drive.google.com/file/d/1ONbf-mGqRTuFw551UWUDBCvDy-SZA4-8/view?usp=sharing
 *   ffhq-metfaces-blended-64:https://drive.google.com/file/d/13RUaSF7dpBXFGkMUSYht0FvS1Jj_EYMI/view?usp=sharing
 
-### multi-domian
+some results:
+
+![image](https://user-images.githubusercontent.com/63801551/123091394-deccac80-d45b-11eb-9473-49800bd3efd5.png)
+
+
+
+## multi-domian
 
 
 ```python
 !python blend_models.py blended16.pkl metface.pkl 64 --output-pkl=ffhq-cartoon16-metfaces64.pkl
 ```
 
-### genenrate image
+some results:
+
+![image](https://user-images.githubusercontent.com/63801551/123091461-f310a980-d45b-11eb-8fa3-464a840dd579.png)
+
+
+# compute FID & LPIPS
+
+
+## genenrate image
 
 
 ```python
@@ -156,8 +185,9 @@ seeds = random.sample(range(1,5000), 2000)
 !python stylegan2-ada/generate.py --outdir=output/cartoon16-metface64 --trunc=1 --seeds=2000  --network=ffhq-cartoon16-metfaces64.pkl
 ```
 
-# compute FID & LPIPS
+## compute
 
+[FID](https://github.com/bioinf-jku/TTUR/blob/master)   [LPIPS](https://github.com/richzhang/PerceptualSimilarity/blob/master)
 
 ```python
  # need inception-2015-12-05.tgz
@@ -206,6 +236,18 @@ print(np.mean(data))
 ```python
 
 ```
+
+result:
+
+|         | **disney** |           | **portrait** |           |
+| ------- | ---------- | --------- | ------------ | --------- |
+|         | *FID*      | *LPIPS*S  | *FID*        | *LPIPS*S  |
+| FT      | 77.400     | 0.561     | 116.702      | 0.734     |
+| FT+LS4  | 70.588     | 0.530     | 108.462      | 0.725     |
+| FT+LS16 | 49.599     | 0.433     | 91.227       | 0.679     |
+| FT+LS64 | **20.456** | **0.256** | **57.652**   | **0.549** |
+
+
 
 # **ganspace**
 
